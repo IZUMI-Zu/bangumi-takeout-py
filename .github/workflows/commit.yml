@@ -1,29 +1,25 @@
+---
 name: Commit timestamp
-
 on:
   schedule:
-      - cron: "0 4 15 * *"  # 运行时间：每周一凌晨四点
-  # ----- 解除这行之前的注释（不包括这行）-----
-  workflow_dispatch:  # 也支持手动触发
-
+    - cron: 0 4 15 * *
+  workflow_dispatch: null
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v2
-      with:
-        persist-credentials: false
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
 
-    - name: Create timestamp file
-      run: echo "Timestamp: $(date)" > timestamp.txt
+      - name: Create timestamp file
+        run: echo $(date) > timestamp.txt
 
-    - name: Commit and push
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add timestamp.txt
-        git commit -m "chore: add timestamp" -a
-        git push
+      - name: Commit and push
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add timestamp.txt
+          git commit -m "chore: add timestamp" -a
+          git push
